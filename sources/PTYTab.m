@@ -2570,21 +2570,42 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     }
 }
 
-// Blur the window if any session is blurred.
-- (BOOL)blur {
-    int n = 0;
-    int y = 0;
+// Blur the window using the blur mode of the majority of sessions, none otherwise.
+- (iTermBlurMode)blur {
+    NSInteger blurModeVote[BLUR_MODE_COUNT];
+    for (NSInteger i = 0; i < BLUR_MODE_COUNT; i++) {
+        blurModeVote[i] = 0;
+    }
+
     NSArray<PTYSession *> *sessions = [self sessions];
     for (PTYSession *session in sessions) {
-        if ([session transparency] > 0 &&
-            [[session textview] useTransparency] &&
-            [[[session profile] objectForKey:KEY_BLUR] boolValue]) {
-            ++y;
+        if ([session transparency] > 0 && [[session textview] useTransparency]) {
+            NSInteger bs;
+            if ([[session profile] objectForKey:KEY_BLUR_MODE] == nil) {
+                // Older profile: this key doesn't exist yet.
+                // Key added when profiles>window>blur dropdown is changed.
+                bs = [[[session profile] objectForKey:KEY_BLUR] boolValue] ? kBlurClassic : kBlurOff;
+            } else {
+                bs = [[[session profile] objectForKey:KEY_BLUR_MODE] integerValue];
+            }
+            if (bs >= 0 && bs < BLUR_MODE_COUNT) {
+                blurModeVote[bs] += 1;
+            }
         } else {
-            ++n;
+            blurModeVote[kBlurOff] += 1;
         }
     }
-    return y > 0;
+    
+    NSInteger max = 0;
+    NSInteger leadingCandidate = kBlurOff;
+    for (NSInteger i = 0; i < BLUR_MODE_COUNT; i++) {
+        if (blurModeVote[i] > max) {
+            max = blurModeVote[i];
+            leadingCandidate = i;
+        }
+    }
+    PtyLog(@"PTYTab blur vote mode = %ld", leadingCandidate);
+    return leadingCandidate;
 }
 
 - (double)blurRadius {
@@ -2592,7 +2613,7 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     double count = 0;
     NSArray<PTYSession *> *sessions = [self sessions];
     for (PTYSession *session in sessions) {
-        if ([[[session profile] objectForKey:KEY_BLUR] boolValue]) {
+        if ([[[session profile] objectForKey:KEY_BLUR_MODE] integerValue] == kBlurClassic) {
             sum += [[session profile] objectForKey:KEY_BLUR_RADIUS] ? [[[session profile] objectForKey:KEY_BLUR_RADIUS] floatValue] : 2.0;
             ++count;
         }
@@ -2609,8 +2630,11 @@ static void SetAgainstGrainDim(BOOL isVertical, NSSize *dest, CGFloat value) {
     PtyLog(@"PTYTab recheckBlur");
     if ([realParentWindow_ currentTab] == self &&
         ![[realParentWindow_ window] isMiniaturized]) {
-        if ([self blur]) {
+        iTermBlurMode mode = [self blur];
+        if (mode == kBlurClassic) {
             [parentWindow_ enableBlur:[self blurRadius]];
+        } else if (mode >= kBlurVibrantAutomatic && mode <= kBlurVibrantDark) {
+            [parentWindow_ setVibrancyBlur:mode];
         } else {
             [parentWindow_ disableBlur];
         }

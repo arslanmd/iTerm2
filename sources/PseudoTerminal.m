@@ -3521,10 +3521,13 @@ ITERM_WEAKLY_REFERENCEABLE
     DLog(@"Erase badge label");
     [self.window.dockTile setBadgeLabel:@""];
     [self.window.dockTile setShowsApplicationBadge:NO];
-    if ([[self currentTab] blur]) {
+    iTermBlurMode mode = [[self currentTab] blur];
+    if (mode == kBlurClassic) {
         [self enableBlur:[[self currentTab] blurRadius]];
-    } else {
+    } else if (mode == kBlurOff) {
         [self disableBlur];
+    } else {
+        [self setVibrancyBlur:mode];
     }
     if (_constrainFrameAfterDeminiaturization) {
         _constrainFrameAfterDeminiaturization = NO;
@@ -5859,8 +5862,14 @@ ITERM_WEAKLY_REFERENCEABLE
     }
 }
 
+- (void)setVibrancyBlur:(iTermBlurMode)style
+{
+    [_contentView enableVibrancyBlur:style];
+}
+
 - (void)enableBlur:(double)radius
 {
+    [_contentView disableVibrancyBlur];
     id window = [self window];
     if (nil != window &&
         [window respondsToSelector:@selector(enableBlur:)]) {
@@ -5870,6 +5879,7 @@ ITERM_WEAKLY_REFERENCEABLE
 
 - (void)disableBlur
 {
+    [_contentView disableVibrancyBlur];
     iTermTerminalWindow *window = [self ptyWindow];
     if (nil != window &&
         [window respondsToSelector:@selector(disableBlur)]) {
@@ -5881,7 +5891,7 @@ ITERM_WEAKLY_REFERENCEABLE
 }
 
 - (void)reallyDisableBlurIfNeeded {
-    if (!self.currentTab.blur) {
+    if (self.currentTab.blur == kBlurOff) {
         [self.ptyWindow disableBlur];
     }
 }
@@ -5920,10 +5930,13 @@ ITERM_WEAKLY_REFERENCEABLE
     }
 
     [[self window] makeFirstResponder:[[[tabViewItem identifier] activeSession] textview]];
-    if ([tab blur]) {
+    iTermBlurMode mode = [tab blur];
+    if (mode == kBlurClassic) {
         [self enableBlur:[tab blurRadius]];
-    } else {
+    } else if (mode == kBlurOff) {
         [self disableBlur];
+    } else {
+        [self setVibrancyBlur:mode];
     }
 
     [_instantReplayWindowController updateInstantReplayView];

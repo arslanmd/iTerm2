@@ -12,6 +12,7 @@
 #import "iTermFunctionCallTextFieldDelegate.h"
 #import "iTermImageWell.h"
 #import "iTermPreferences.h"
+#import "iTermProfilePreferences.h"
 #import "iTermSizeRememberingView.h"
 #import "iTermSystemVersion.h"
 #import "iTermVariableScope.h"
@@ -41,6 +42,7 @@ CGFloat iTermMaxBlurRadius(void) {
     IBOutlet NSButton *_useBlur;
     IBOutlet NSButton *_initialUseTransparency;
     IBOutlet NSSlider *_blurRadius;
+    IBOutlet NSPopUpButton *_blurModePopup;
     IBOutlet NSButton *_useBackgroundImage;
     IBOutlet iTermImageWell *_backgroundImagePreview;
     IBOutlet NSButton *_backgroundImageMode;
@@ -89,14 +91,7 @@ CGFloat iTermMaxBlurRadius(void) {
                    relatedView:_transparencyLabel
                           type:kPreferenceInfoTypeSlider];
     info.observer = ^() {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-        BOOL haveTransparency = (strongSelf->_transparency.doubleValue > 0);
-        strongSelf->_transparencyAffectsOnlyDefaultBackgroundColor.enabled = haveTransparency;
-        strongSelf->_blurRadius.enabled = haveTransparency;
-        strongSelf->_useBlur.enabled = haveTransparency;
+        [weakSelf updateTransparencyLinkedOptions];
     };
 
     [self defineControl:_initialUseTransparency
@@ -107,14 +102,13 @@ CGFloat iTermMaxBlurRadius(void) {
     info = [self defineControl:_useBlur
                            key:KEY_BLUR
                    relatedView:nil
-                          type:kPreferenceInfoTypeCheckbox];
+                   displayName:nil
+                          type:kPreferenceInfoTypeCheckbox
+                settingChanged:NULL
+                        update:NULL
+                    searchable:NO];
     info.observer = ^() {
-        __strong __typeof(weakSelf) strongSelf = weakSelf;
-        if (!strongSelf) {
-            return;
-        }
-        strongSelf->_blurRadius.enabled = (strongSelf->_useBlur.state == NSControlStateValueOn);
-        [strongSelf updateBlurRadiusWarning];
+        [weakSelf updateTransparencyLinkedOptions];
     };
 
     _blurRadius.maxValue = iTermMaxBlurRadius();
@@ -125,7 +119,23 @@ CGFloat iTermMaxBlurRadius(void) {
     info.observer = ^{
         [weakSelf updateBlurRadiusWarning];
     };
-    [self updateBlurRadiusWarning];
+
+    info = [self defineControl:_blurModePopup
+                           key:KEY_BLUR_MODE
+                   displayName:@"Background blur mode"
+                          type:kPreferenceInfoTypePopup];
+    if (@available(macOS 10.14, *)) {
+        [_blurModePopup addItemWithTitle:@"Vibrant Automatic"];
+        [[_blurModePopup lastItem] setTag:kBlurVibrantAutomatic];
+        [_blurModePopup addItemWithTitle:@"Vibrant Light"];
+        [[_blurModePopup lastItem] setTag:kBlurVibrantLight];
+        [_blurModePopup addItemWithTitle:@"Vibrant Dark"];
+        [[_blurModePopup lastItem] setTag:kBlurVibrantDark];
+    }
+    info.observer = ^() {
+        [weakSelf updateTransparencyLinkedOptions];
+    };
+    [self updateTransparencyLinkedOptions];
 
     info = [self defineControl:_backgroundImageMode
                            key:KEY_BACKGROUND_IMAGE_MODE
@@ -275,10 +285,21 @@ CGFloat iTermMaxBlurRadius(void) {
                            key:nil];
 }
 
+- (void)updateTransparencyLinkedOptions {
+    BOOL haveTransparency = (self->_transparency.doubleValue > 0);
+    BOOL isClassic = [_blurModePopup selectedTag] == kBlurClassic;
+    _transparencyAffectsOnlyDefaultBackgroundColor.enabled = haveTransparency;
+    _blurModePopup.enabled = haveTransparency;
+    _useBlur.enabled = NO;
+    _useBlur.state = isClassic ? NSControlStateValueOn : NSControlStateValueOff;
+    _blurRadius.enabled = haveTransparency && isClassic;
+    [self updateBlurRadiusWarning];
+}
+
 - (void)updateBlurRadiusWarning {
     if (@available(macOS 10.15, *)) {
         // It seems to get slow around this point on some machines circa 2017.
-        if ([self boolForKey:KEY_BLUR] && [self floatForKey:KEY_BLUR_RADIUS] > 26) {
+        if (([self integerForKey:KEY_BLUR_MODE] == kBlurClassic) && [self floatForKey:KEY_BLUR_RADIUS] > 26) {
             _largeBlurRadiusWarning.hidden = NO;
             return;
         }

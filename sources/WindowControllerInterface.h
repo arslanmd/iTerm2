@@ -6,6 +6,7 @@
 #import "ProfileModel.h"
 #import "PTYTabDelegate.h"
 #import "PTYWindow.h"
+#import "iTermPreferences.h"
 
 @class iTermPopupWindowController;
 @class iTermRestorableSession;
@@ -59,6 +60,9 @@
 
 // Disable blur for window.
 - (void)disableBlur;
+
+// Set blur mode to vibrancy (auto|light|dark) for window.
+- (void)setVibrancyBlur:(iTermBlurMode)style;
 
 // Force the window size to change to be just large enough to fit this session.
 - (void)fitWindowToTab:(PTYTab*)tab;

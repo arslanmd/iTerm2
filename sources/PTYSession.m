@@ -6536,6 +6536,13 @@ scrollToFirstResult:(BOOL)scrollToFirstResult {
         if (iTermTextIsMonochrome()) {
             transparencyAllowed = YES;
         }
+//            iTermBlurMode mode = [self.profile[KEY_BLUR_MODE] integerValue];
+//            if (mode >= kBlurVibrantAutomatic && mode <= kBlurVibrantDark) {
+//                if (reason) {
+//                    *reason = iTermMetalUnavailableReasonVibrancy;
+//                }
+//                return NO;
+//            }
 #endif
         if (!transparencyAllowed && _textview.transparencyAlpha < 1) {
             if (reason) {

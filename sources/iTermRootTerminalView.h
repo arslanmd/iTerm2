@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "SolidColorView.h"
 #import "VT100GridTypes.h"
+#import "iTermPreferences.h"
 
 @class iTermImageView;
 @class iTermRootTerminalView;
@@ -149,5 +150,8 @@ extern const NSInteger iTermRootTerminalViewWindowNumberLabelWidth;
 - (void)updateTitleAndBorderViews NS_AVAILABLE_MAC(10_14);
 - (void)setSubtitle:(NSString *)subtitle;
 - (void)setCurrentSessionAlpha:(CGFloat)alpha;
+
+- (void)enableVibrancyBlur:(iTermBlurMode)style API_AVAILABLE(macosx(10.14));
+- (void)disableVibrancyBlur API_AVAILABLE(macosx(10.14));
 
 @end

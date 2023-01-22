@@ -155,6 +155,7 @@
 #define KEY_BLEND                  @"Blend"
 #define KEY_BLUR                   @"Blur"
 #define KEY_BLUR_RADIUS            @"Blur Radius"
+#define KEY_BLUR_MODE              @"Blur Mode"
 #define KEY_ANTI_ALIASING          @"Anti Aliasing"  // DEPRECATED
 #define KEY_ASCII_ANTI_ALIASED     @"ASCII Anti Aliased"
 #define KEY_USE_NONASCII_FONT      @"Use Non-ASCII Font"

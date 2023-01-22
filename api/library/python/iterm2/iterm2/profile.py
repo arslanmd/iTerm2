@@ -104,6 +104,16 @@ class IconMode(enum.Enum):
     def toJSON(self):
         return json.dumps(self.value)
 
+class BlurMode(enum.Enum):
+    """How (not) to draw background blur."""
+    OFF = 0
+    CLASSIC = 1
+    VIBRANT_AUTOMATIC = 2
+    VIBRANT_LIGHT = 3
+    VIBRANT_DARK = 4
+
+    def toJSON(self):
+        return json.dumps(self.value)
 
 class TitleComponents(enum.Enum):
     """Which title components should be present?"""
@@ -1407,7 +1417,7 @@ class LocalWriteOnlyProfile:
 
     def set_blur(self, value: bool):
         """
-        Sets whether background blur should be enabled.
+        Sets whether classic (Gaussian/non-'Vibrant') background blur should be enabled.
 
         :param value: A bool
         """
@@ -1415,13 +1425,26 @@ class LocalWriteOnlyProfile:
 
     def set_blur_radius(self, value: float):
         """
-        Sets the blur radius (how blurry). Requires blur to be enabled.
+        Sets the classic blur radius (how blurry).
+        Requires classic blur to be enabled or `BlurMode.CLASSIC` to be set.
+        Other blur modes will ignore this setting.
 
         The value is between 0 and 30.
 
         :param value: A float
         """
         return self._simple_set("Blur Radius", value)
+
+    def set_blur_mode(self, value: bool):
+        """
+        Sets background blur style or disables blurring altogether.
+        
+        Supercedes `set_blur`, which is effectively `set_blur_mode(BlurMode.CLASSIC)`.
+        Vibrant Blur settings are only available for macOS 10.14 and above.
+        
+        :param value: A `BlurMode`
+        """
+        return self._simple_set("Blur Mode", value: BlurMode)
 
     def set_background_image_mode(self, value: BackgroundImageMode):
         """

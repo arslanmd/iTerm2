@@ -150,6 +150,14 @@
 {
 }
 
+- (void)setVibrancyBlur:(iTermBlurMode)style
+{
+    hasPendingBlurChange = YES;
+    // fake the large radius of vibrancy
+    pendingBlurRadius = 64;
+    pendingBlur = YES;
+}
+
 - (void)enableBlur:(double)radius
 {
     hasPendingBlurChange = YES;

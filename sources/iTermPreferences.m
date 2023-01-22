@@ -190,6 +190,10 @@ NSString *const iTermDefaultAIPrompt =
 @"Respond with one or more commands. Do not include any explanation or additional text besides the commands."
 @"Request: \\(ai.prompt)\n";
 
+
+//NSString *const kPreferenceKeyBackgroundBlurMode = @"BackgroundBlurMode";
+
+NSString *const kPreferenceKeyForceShowTabAndStatusBarBacking = @"ForceShowTabAndStatusBarBacking";
 // NOTE: If you update this list, also update preferences.py.
 
 static NSMutableDictionary *gObservers;
@@ -471,7 +475,9 @@ static NSString *sPreviousVersion;
                   kPreferenceKeyHTMLTabTitles: @NO,
 
                   kPreferenceKeyDisableTransparencyForKeyWindow: @NO,
-                  kPreferenceKeyNeverBlockSystemShutdown: @NO
+                  kPreferenceKeyNeverBlockSystemShutdown: @NO,
+                  
+//                  kPreferenceKeyBackgroundBlurMode: @(kBlurOff),
               };
     }
     return dict;

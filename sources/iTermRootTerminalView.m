@@ -155,6 +155,9 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     NSView *_topBorderView NS_AVAILABLE_MAC(10_14);
     NSView *_bottomBorderView NS_AVAILABLE_MAC(10_14);
     
+    NSVisualEffectView *_blurView NS_AVAILABLE_MAC(10_14);
+    iTermBlurMode _currentBlurStyle;
+    
     iTermImageView *_backgroundImage NS_AVAILABLE_MAC(10_14);
     NSView *_workaroundView;  // 10.14 only. See issue 8701.
     iTermLayerBackedSolidColorView *_notchMask NS_AVAILABLE_MAC(12_0);
@@ -178,6 +181,30 @@ NS_CLASS_AVAILABLE_MAC(10_14)
         _backgroundImage.hidden = YES;
         [self addSubview:_backgroundImage];
 
+        
+//        if (@available(macOS 10.14, *)) {
+//            _blurView = nil;
+//            _blurView = [[NSVisualEffectView alloc] init];
+//            _blurView.wantsLayer = YES;
+//            _blurView.blendingMode = NSVisualEffectBlendingModeWithinWindow;
+//            _blurView.material = NSVisualEffectMaterialFullScreenUI;
+//            _blurView.state = NSVisualEffectStateActive;
+//            _blurView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+//            _blurView.frame = self.bounds;
+//            _backgroundImage.hidden = YES;
+//            [self addSubview:_blurView];
+//        }
+        
+        // if (@available(macOS 10.14, *)) {
+            _blurView = nil;
+            // _backgroundImage = [[iTermImageView alloc] init];
+            // _backgroundImage.frame = self.bounds;
+            // _backgroundImage.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+            // _backgroundImage.hidden = YES;
+            // [self addSubview:_backgroundImage];
+        // }
+        _currentBlurStyle = kBlurOff;
+        
         // Create the tab view.
         self.tabView = [[PTYTabView alloc] initWithFrame:self.bounds];
         self.tabView.drawsBackground = NO;
@@ -967,6 +994,39 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     _tabBarBacking.visualEffectView.hidden = PSMShouldExtendTransparencyIntoMinimalTabBar() && (alpha < 1);
 }
 
+#pragma mark - Vibrancy Blur
+
+- (void)enableVibrancyBlur:(iTermBlurMode)style {
+    if (style == _currentBlurStyle || (style < kBlurVibrantAutomatic || style > kBlurVibrantDark)) {
+        return;
+    }
+    [self disableVibrancyBlur];
+    _currentBlurStyle = style;
+    NSLog(@"enabling vibrancy = %ld", _currentBlurStyle);
+    _blurView = [[NSVisualEffectView alloc] initWithFrame:self.bounds];
+    _blurView.wantsLayer = YES;
+    _blurView.blendingMode = NSVisualEffectBlendingModeWithinWindow;
+    if (style == kBlurVibrantLight) {
+        [_blurView setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantLight]];
+    } else if (style == kBlurVibrantDark) {
+        [_blurView setAppearance:[NSAppearance appearanceNamed:NSAppearanceNameVibrantDark]];
+    }
+    _blurView.material = NSVisualEffectMaterialFullScreenUI;
+    _blurView.state = NSVisualEffectStateActive;
+    [self addSubview:_blurView positioned:NSWindowBelow relativeTo:self.subviews.firstObject];
+    _blurView.autoresizingMask = (NSViewWidthSizable | NSViewHeightSizable);
+}
+
+- (void)disableVibrancyBlur {
+    NSLog(@"disabling vibrancy");
+    _currentBlurStyle = kBlurOff;
+    if (!_blurView) {
+        return;
+    }
+    [_blurView removeFromSuperview];
+    _blurView = nil;
+}
+
 #pragma mark - Division View
 
 - (void)updateDivisionViewAndWindowNumberLabel {
@@ -1543,6 +1603,11 @@ NS_CLASS_AVAILABLE_MAC(10_14)
     }
 
     _backgroundImage.frame = self.bounds;
+    // if (@available(macOS 10.14, *)) {
+        if (_blurView) {
+            _blurView.frame = self.bounds;
+        }
+    // }
     [self layoutWindowPaneDecorations];
 
     // The tab view frame (calculated below) is based on the toolbelt's width. If the toolbelt is

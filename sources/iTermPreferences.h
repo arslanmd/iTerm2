@@ -34,6 +34,15 @@ typedef NS_ENUM(NSUInteger, iTermStatusBarPosition) {
     iTermStatusBarPositionBottom
 };
 
+#define BLUR_MODE_COUNT 5 // for iterating through blur modes
+typedef NS_ENUM(NSInteger, iTermBlurMode) {
+    kBlurOff = 0, // default. KEY_BLUR determines whether computed to kBlurOff or kBlurClassic on older profile load.
+    kBlurClassic = 1, // classic Gaussian blur, with tweakable radius.
+    kBlurVibrantAutomatic = 2, // vibrancy, either light or dark depending on current NSAppearance.
+    kBlurVibrantLight = 3, // vibrancy, white tint at full transparency.
+    kBlurVibrantDark = 4, // vibrancy, dark tint at full transparency.
+};
+
 // Values for kPreferenceKeyTabPosition (corresponds to tags in control).
 #define TAB_POSITION_TOP PSMTab_TopTab
 #define TAB_POSITION_BOTTOM PSMTab_BottomTab
@@ -150,6 +159,8 @@ extern NSString *const kPreferenceKeySeparateStatusBarsPerPane;
 extern NSString *const kPreferenceKeyHTMLTabTitles;
 extern NSString *const kPreferenceKeySideMargins;
 extern NSString *const kPreferenceKeyTopBottomMargins;
+//extern NSString *const kPreferenceKeyBackgroundBlurMode;
+extern NSString *const kPreferenceKeyForceShowTabAndStatusBarBacking; // HACK
 
 // Keys
 extern NSString *const kPreferenceKeyControlRemapping;

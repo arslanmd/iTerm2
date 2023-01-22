@@ -126,7 +126,7 @@
             <windowStyleMask key="styleMask" titled="YES" utility="YES" documentModal="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="132" width="451" height="246"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1667"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="6180">
                 <rect key="frame" x="0.0" y="0.0" width="451" height="246"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -381,7 +381,7 @@ Gw
         <window title="Preferences" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="1923" userLabel="Main Preferences Window" customClass="iTermPrefsPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <rect key="contentRect" x="269" y="110" width="924" height="463"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1667"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="1924">
                 <rect key="frame" x="0.0" y="0.0" width="924" height="463"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -684,7 +684,7 @@ Gw
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" utility="YES" documentModal="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="162" y="156" width="805" height="358"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1667"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <value key="minSize" type="size" width="805" height="358"/>
             <view key="contentView" id="5911">
                 <rect key="frame" x="0.0" y="0.0" width="805" height="358"/>
@@ -1423,6 +1423,7 @@ DQ
                 <outlet property="_backgroundImagePreview" destination="4974" id="zoR-T3-lJq"/>
                 <outlet property="_blendAmount" destination="6320" id="FUt-BP-aez"/>
                 <outlet property="_blendAmountLabel" destination="6324" id="TOM-PK-pqI"/>
+                <outlet property="_blurModePopup" destination="HJH-AL-14u" id="I77-cP-l4z"/>
                 <outlet property="_blurRadius" destination="5363" id="iUQ-8z-lyV"/>
                 <outlet property="_columnsField" destination="4911" id="X3h-Pu-qzV"/>
                 <outlet property="_columnsLabel" destination="4912" id="veJ-9B-Jrh"/>
@@ -2955,7 +2956,7 @@ DQ
             <point key="canvasLocation" x="509" y="1335"/>
         </customView>
         <customView id="77f-eM-Dma" userLabel="Prefs - Profiles - Window" customClass="iTermSizeRememberingView">
-            <rect key="frame" x="0.0" y="0.0" width="571" height="460"/>
+            <rect key="frame" x="0.0" y="0.0" width="571" height="485"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5Pc-ik-L8m" userLabel="Settings for new windows">
@@ -3219,7 +3220,7 @@ DQ
                     </subviews>
                 </customView>
                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4973">
-                    <rect key="frame" x="274" y="411" width="75" height="18"/>
+                    <rect key="frame" x="274" y="436" width="75" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Enabled" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="4988">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -3231,7 +3232,7 @@ DQ
                     </connections>
                 </button>
                 <imageView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4974" customClass="iTermImageWell">
-                    <rect key="frame" x="273" y="315" width="281" height="91"/>
+                    <rect key="frame" x="273" y="340" width="281" height="91"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <imageCell key="cell" selectable="YES" editable="YES" alignment="left" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" id="4987"/>
                     <connections>
@@ -3239,7 +3240,7 @@ DQ
                     </connections>
                 </imageView>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4975">
-                    <rect key="frame" x="15" y="413" width="90" height="16"/>
+                    <rect key="frame" x="15" y="438" width="90" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Transparency:" id="4986">
                         <font key="font" metaFont="system"/>
@@ -3247,10 +3248,27 @@ DQ
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4976">
-                    <rect key="frame" x="15" y="313" width="54" height="18"/>
+                <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HJH-AL-14u">
+                    <rect key="frame" x="50" y="337" width="206" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Blur:" bezelStyle="regularSquare" imagePosition="left" alignment="left" continuous="YES" inset="2" id="4985">
+                    <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" selectedItem="YG7-L9-HwS" id="nqM-G2-Ns1">
+                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" id="NhD-CE-gCJ">
+                            <items>
+                                <menuItem title="None" state="on" id="YG7-L9-HwS"/>
+                                <menuItem title="Classic (Radius)" tag="1" id="ORQ-Z1-vPf"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                    <connections>
+                        <action selector="settingChanged:" target="BMA-OA-Kzc" id="4BA-ft-rwj"/>
+                    </connections>
+                </popUpButton>
+                <button hidden="YES" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4976">
+                    <rect key="frame" x="15" y="273" width="54" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Blur:" bezelStyle="regularSquare" imagePosition="left" continuous="YES" inset="2" id="4985">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -3259,7 +3277,7 @@ DQ
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4977">
-                    <rect key="frame" x="15" y="441" width="137" height="16"/>
+                    <rect key="frame" x="15" y="466" width="137" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Window Appearance" id="4984">
                         <font key="font" metaFont="systemBold"/>
@@ -3268,7 +3286,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6327">
-                    <rect key="frame" x="274" y="441" width="125" height="16"/>
+                    <rect key="frame" x="274" y="466" width="125" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Background Image" id="6328">
                         <font key="font" metaFont="systemBold"/>
@@ -3277,7 +3295,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Vwi-3q-miX" customClass="iTermSlider">
-                    <rect key="frame" x="38" y="385" width="214" height="20"/>
+                    <rect key="frame" x="38" y="410" width="214" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4978">
@@ -3286,13 +3304,13 @@ DQ
                             <sliderCell key="cell" continuous="YES" alignment="left" maxValue="0.90000000000000002" tickMarkPosition="below" sliderType="linear" id="4983"/>
                             <connections>
                                 <action selector="settingChanged:" target="BMA-OA-Kzc" id="srW-J0-j7N"/>
-                                <outlet property="nextKeyView" destination="4976" id="5265"/>
+                                <outlet property="nextKeyView" destination="HJH-AL-14u" id="Vxl-jX-lNH"/>
                             </connections>
                         </slider>
                     </subviews>
                 </customView>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4979">
-                    <rect key="frame" x="35" y="370" width="39" height="11"/>
+                    <rect key="frame" x="35" y="395" width="39" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Opaque" id="4982">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3301,7 +3319,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4980">
-                    <rect key="frame" x="146" y="370" width="57" height="11"/>
+                    <rect key="frame" x="146" y="395" width="57" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Transparent" id="4981">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3310,7 +3328,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aTQ-To-rLu" customClass="iTermSlider">
-                    <rect key="frame" x="38" y="286" width="214" height="20"/>
+                    <rect key="frame" x="38" y="311" width="214" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5363">
@@ -3325,7 +3343,7 @@ DQ
                     </subviews>
                 </customView>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5364">
-                    <rect key="frame" x="35" y="272" width="61" height="11"/>
+                    <rect key="frame" x="40" y="297" width="61" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Small Radius" id="5367">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3334,7 +3352,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5365">
-                    <rect key="frame" x="142" y="272" width="62" height="11"/>
+                    <rect key="frame" x="192" y="297" width="62" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Large Radius" id="5366">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3343,7 +3361,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2W7-4B-3Az" customClass="iTermSlider">
-                    <rect key="frame" x="340" y="286" width="211" height="20"/>
+                    <rect key="frame" x="340" y="311" width="211" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <slider toolTip="How much of the background image is visible through the background color." verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6320">
@@ -3352,13 +3370,13 @@ DQ
                             <sliderCell key="cell" continuous="YES" alignment="left" minValue="0.050000000000000003" maxValue="1" doubleValue="0.40000000000000002" tickMarkPosition="below" sliderType="linear" id="6321"/>
                             <connections>
                                 <action selector="settingChanged:" target="BMA-OA-Kzc" id="O9z-H1-Kma"/>
-                                <outlet property="nextKeyView" destination="4976" id="6322"/>
+                                <outlet property="nextKeyView" destination="HJH-AL-14u" id="juD-gV-fGw"/>
                             </connections>
                         </slider>
                     </subviews>
                 </customView>
                 <button toolTip="Enable this to make non-default background colors always opaque. This is useful when using Powerline in a translucent window." fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fwj-4Y-nja">
-                    <rect key="frame" x="36" y="347" width="222" height="18"/>
+                    <rect key="frame" x="36" y="372" width="222" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Keep background colors opaque" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="sBm-XA-tIi">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -3370,7 +3388,7 @@ DQ
                     </connections>
                 </button>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TfM-qR-99a" userLabel="Mode Popup">
-                    <rect key="frame" x="417" y="405" width="137" height="26"/>
+                    <rect key="frame" x="417" y="430" width="137" height="26"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <popUpButtonCell key="cell" type="push" title="Stretch" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="SZF-cW-ZSJ" id="Td6-wf-6Jq" userLabel="Mode Popup Cell">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -3389,7 +3407,7 @@ DQ
                     </connections>
                 </popUpButton>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6324">
-                    <rect key="frame" x="273" y="289" width="61" height="16"/>
+                    <rect key="frame" x="273" y="314" width="61" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Blending:" id="6325">
                         <font key="font" metaFont="system"/>
@@ -3398,7 +3416,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dRl-iR-ObS">
-                    <rect key="frame" x="338" y="272" width="83" height="11"/>
+                    <rect key="frame" x="338" y="297" width="83" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Background Color" id="32Y-Ur-CMV">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3407,7 +3425,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vD5-D9-lB3">
-                    <rect key="frame" x="472" y="272" width="31" height="11"/>
+                    <rect key="frame" x="472" y="297" width="31" height="11"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Image" id="hxE-2N-hxp">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3416,7 +3434,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsCharacterPickerTouchBarItem="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rG2-Kr-L09">
-                    <rect key="frame" x="371" y="412" width="42" height="16"/>
+                    <rect key="frame" x="371" y="437" width="42" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Mode:" id="nqL-V5-PvW">
                         <font key="font" metaFont="system"/>
@@ -3425,7 +3443,7 @@ DQ
                     </textFieldCell>
                 </textField>
                 <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F89-Ng-LFn">
-                    <rect key="frame" x="130" y="307" width="124" height="22"/>
+                    <rect key="frame" x="130" y="267" width="124" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="mini" alignment="right" title="⚠️ A large blur radius may hurt performance" id="1JR-lN-kdB">
                         <font key="font" metaFont="menu" size="9"/>
@@ -3433,9 +3451,18 @@ DQ
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yev-UW-JlZ">
+                    <rect key="frame" x="15" y="344" width="32" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Blur:" id="kY4-zJ-m4O">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
             </subviews>
             <accessibility identifier="prefsProfilesWindow"/>
-            <point key="canvasLocation" x="-902.5" y="518"/>
+            <point key="canvasLocation" x="-902.5" y="530.5"/>
         </customView>
         <customView id="0rQ-EK-tyN" userLabel="Prefs - Profiles - Terminal" customClass="iTermSizeRememberingView">
             <rect key="frame" x="0.0" y="0.0" width="578" height="586"/>
@@ -7529,7 +7556,7 @@ DQ
         <window title="Filter Alerts" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="u39-OD-7hu" customClass="NSPanel">
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="120" y="138" width="406" height="145"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="3008" height="1667"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="dXn-d7-O8o">
                 <rect key="frame" x="0.0" y="0.0" width="406" height="145"/>
                 <autoresizingMask key="autoresizingMask"/>

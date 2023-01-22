@@ -4,6 +4,7 @@
 #import <Cocoa/Cocoa.h>
 #import "FutureMethods.h"
 #import "iTermEncoderAdapter.h"
+#import "iTermPreferences.h"
 #import "PSMTabBarControl.h"
 #import "PTYSession.h"
 #import "PTYSplitView.h"
@@ -191,7 +192,7 @@ extern NSString *const PTYTabVariableTitleOverride;
 - (PTYSession*)sessionBelow:(PTYSession*)session;
 - (BOOL)canSplitVertically:(BOOL)isVertical withSize:(NSSize)newSessionSize;
 - (NSImage*)image:(BOOL)withSpaceForFrame;
-- (BOOL)blur;
+- (iTermBlurMode)blur;
 - (double)blurRadius;
 
 - (NSSize)_minSessionSize:(SessionView*)sessionView;
